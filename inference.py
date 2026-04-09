@@ -32,15 +32,14 @@ from tasks import ALL_TASKS, Task
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.openai.com/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4o-mini")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "dummy-api-key")
 HF_TOKEN = os.getenv("HF_TOKEN", "")
 
-if not OPENAI_API_KEY:
-    print("ERROR: OPENAI_API_KEY environment variable is required.", file=sys.stderr)
-    sys.exit(1)
-
-client = OpenAI(api_key=OPENAI_API_KEY, base_url=API_BASE_URL)
-
+try:
+    client = OpenAI(api_key=OPENAI_API_KEY, base_url=API_BASE_URL)
+except Exception as e:
+    print(f"Warning: OpenAI initialization failed: {e}", file=sys.stderr)
+    client = None
 
 # ---------------------------------------------------------------------------
 # System prompt

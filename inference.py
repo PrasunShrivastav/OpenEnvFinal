@@ -32,11 +32,12 @@ from tasks import ALL_TASKS, Task
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.openai.com/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4o-mini")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "dummy-api-key")
+# Validator uses API_KEY for proxy, but fallback to OPENAI_API_KEY for local runs
+api_key = os.getenv("API_KEY") or os.getenv("OPENAI_API_KEY", "dummy-api-key")
 HF_TOKEN = os.getenv("HF_TOKEN", "")
 
 try:
-    client = OpenAI(api_key=OPENAI_API_KEY, base_url=API_BASE_URL)
+    client = OpenAI(api_key=api_key, base_url=API_BASE_URL)
 except Exception as e:
     print(f"Warning: OpenAI initialization failed: {e}", file=sys.stderr)
     client = None

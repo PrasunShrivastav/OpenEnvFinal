@@ -1,0 +1,102 @@
+name: customer-support-triage
+version: "1.0.0"
+description: >
+  An OpenEnv environment for customer support ticket triage and response
+  prioritisation. The agent reads a support ticket, classifies intent,
+  assigns priority, drafts a reply, and submits — receiving dense, partial
+  rewards at each step.
+
+author: OpenEnv Community
+license: MIT
+
+environment:
+  entry_point: env:SupportTriageEnv
+  max_steps: 10
+  reward_range: [0.0, 1.0]
+
+action_space:
+  type: structured
+  actions:
+    - name: classify_intent
+      description: Assign an intent label to the ticket.
+      parameters:
+        intent:
+          type: string
+          enum: [billing, technical, feature_request, complaint, other]
+    - name: set_priority
+      description: Assign a priority level to the ticket.
+      parameters:
+        priority:
+          type: integer
+          minimum: 1
+          maximum: 3
+    - name: draft_reply
+      description: Compose a short reply to the customer (max 200 chars).
+      parameters:
+        text:
+          type: string
+          max_length: 200
+    - name: submit
+      description: Finalise the episode and submit all decisions.
+      parameters: {}
+
+observation_space:
+  type: dict
+  fields:
+    ticket_title:
+      type: string
+      description: Title of the support ticket.
+    ticket_description:
+      type: string
+      description: Full body of the support ticket.
+    actions_taken:
+      type: array
+      description: Ordered list of actions taken so far with step, type, detail, reward.
+    reward_history:
+      type: array
+      description: Cumulative reward at each step.
+    current_step:
+      type: integer
+      description: Current step index (0-indexed).
+    done:
+      type: boolean
+      description: Whether the episode has ended.
+    available_actions:
+      type: array
+      description: Action types still valid for the agent to take.
+
+tasks:
+  - id: easy
+    difficulty: easy
+    description: >
+      Simple billing question — double charge on an invoice.
+      Intent: billing, Priority: 2. Reply must mention "invoice" or "charge".
+  - id: medium
+    difficulty: medium
+    description: >
+      Technical issue — app crashes after update with vague description.
+      Intent: technical, Priority: 3. Reply must request logs and offer
+      a troubleshooting step.
+  - id: hard
+    difficulty: hard
+    description: >
+      Angry complaint about repeated outages causing revenue loss.
+      Intent: complaint, Priority: 3. Reply must apologise, acknowledge the
+      problem, and offer compensation. Must NOT contain defensive language.
+
+grading:
+  type: programmatic
+  entry_point: tasks:grader
+  score_range: [0.0, 1.0]
+
+deployment:
+  dockerfile: Dockerfile
+  port: 7860
+  api_entry_point: api:app
+
+baseline:
+  script: inference.py
+  expected_scores:
+    easy: 0.80
+    medium: 0.65
+    hard: 0.40

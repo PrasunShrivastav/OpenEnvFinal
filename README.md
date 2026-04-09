@@ -1,3 +1,14 @@
+---
+title: Customer Support Ticket Triage
+emoji: 🎫
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+sdk_version: "latest"
+app_file: api.py
+pinned: false
+---
+
 # Customer Support Ticket Triage – OpenEnv
 
 An **OpenEnv‑compatible** reinforcement‑learning environment that simulates

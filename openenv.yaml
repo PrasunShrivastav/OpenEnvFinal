@@ -92,7 +92,7 @@ grading:
 deployment:
   dockerfile: Dockerfile
   port: 7860
-  api_entry_point: api:app
+  api_entry_point: server.app:app
 
 baseline:
   script: inference.py

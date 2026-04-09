@@ -182,7 +182,7 @@ openenv validate
 ├── tasks.py          # 3 tasks + deterministic graders
 ├── openenv.yaml      # OpenEnv metadata
 ├── inference.py      # Baseline LLM agent script
-├── api.py            # FastAPI wrapper for HF Space
+├── server/app.py     # FastAPI wrapper for HF Space
 ├── Dockerfile        # Container definition
 ├── requirements.txt  # Python dependencies
 ├── test_env.py       # Unit tests

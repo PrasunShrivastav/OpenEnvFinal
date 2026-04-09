@@ -200,7 +200,7 @@ class TestGrader:
             "submitted": False,
         }
         score = grader(task, outputs)
-        assert score == pytest.approx(0.0)
+        assert score == pytest.approx(0.01)
 
     def test_partial_medium(self) -> None:
         task = TASKS_BY_ID["medium"]

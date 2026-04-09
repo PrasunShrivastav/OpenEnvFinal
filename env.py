@@ -92,7 +92,7 @@ class SupportTriageEnv:
         # Accumulate
         self._cumulative_reward += reward
         self._cumulative_reward = round(
-            max(0.0, min(1.0, self._cumulative_reward)), 4
+            max(0.05, min(0.95, self._cumulative_reward)), 4
         )
         self._reward_history.append(self._cumulative_reward)
 

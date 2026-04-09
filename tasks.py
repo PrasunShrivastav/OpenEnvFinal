@@ -51,7 +51,7 @@ def grader(task: Task, agent_outputs: dict) -> float:
     -------
     float  in [0.0, 1.0]
     """
-    score = 0.0
+    score = 0.05
 
     # --- Intent (0.2) -------------------------------------------------
     if agent_outputs.get("intent") == task.ground_truth_intent:
@@ -92,7 +92,7 @@ def grader(task: Task, agent_outputs: dict) -> float:
     if agent_outputs.get("submitted", False):
         score += 0.1
 
-    return round(max(0.01, min(score, 0.99)), 4)
+    return round(score, 4)
 
 
 # ---------------------------------------------------------------------------

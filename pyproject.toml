@@ -23,7 +23,7 @@ dependencies = [
 
 [project.scripts]
 inference = "inference:main"
-server = "server.app:start"
+server = "server.app:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

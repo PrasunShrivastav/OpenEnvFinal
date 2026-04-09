@@ -178,7 +178,7 @@ def run_episode(task: Task) -> float:
             break
 
     # Clamp total reward
-    total_reward = round(max(0.0, min(1.0, total_reward)), 4)
+    total_reward = round(max(0.01, min(0.99, total_reward)), 4)
     print(f"[END] total_reward:{total_reward} task_score:{total_reward}")
     print()
 
